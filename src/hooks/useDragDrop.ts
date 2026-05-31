@@ -24,7 +24,6 @@ export function useDragDrop(addItems: (items: PlaylistItem[]) => void) {
     e.preventDefault();
   }, []);
 
-  // Reads entries in batches until empty
   const readAllEntries = (
     reader: FileSystemDirectoryReader,
   ): Promise<FileSystemEntry[]> => {

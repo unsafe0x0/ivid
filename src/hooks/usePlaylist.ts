@@ -18,7 +18,6 @@ export function usePlaylist(
     }
   }, []);
 
-  // Load video when playlist/index changes
   useEffect(() => {
     const itemToLoad = playlist[currentIndex];
     if (itemToLoad && itemToLoad.id !== currentLoadedId.current) {
@@ -47,7 +46,6 @@ export function usePlaylist(
     }
   }, [playlist, currentIndex, videoRef, revokePreviousBlob]);
 
-  // Cleanup on unmount
   useEffect(() => () => revokePreviousBlob(), [revokePreviousBlob]);
 
   const hasNext = currentIndex < playlist.length - 1;

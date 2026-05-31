@@ -28,7 +28,6 @@ export const QualityDropdown = memo(function QualityDropdown({
 }: QualityDropdownProps) {
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Only attach when open
   useEffect(() => {
     if (!showMenu) return;
     const handleClickOutside = (e: MouseEvent) => {

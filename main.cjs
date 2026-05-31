@@ -14,7 +14,6 @@ function createWindow() {
     },
   });
 
-  // Create the native VLC-style application menu
   const template = [
     {
       label: "File",
@@ -53,21 +52,11 @@ function createWindow() {
         { label: "Exit", role: "quit" },
       ],
     },
-    {
-      label: "View",
-      submenu: [
-        { role: "reload" },
-        { role: "toggleDevTools" },
-        { type: "separator" },
-        { role: "togglefullscreen" },
-      ],
-    },
   ];
 
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 
-  // In development, Vite runs on port 5173
   const isDev = process.env.NODE_ENV === "development" || !app.isPackaged;
 
   ipcMain.handle("get-initial-files", () => {

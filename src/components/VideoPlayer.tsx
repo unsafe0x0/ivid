@@ -37,7 +37,6 @@ export function VideoPlayer() {
   const ambientFrameId = useRef<number | null>(null);
   const frameCountRef = useRef(0);
 
-  // Persisted preferences
   const [storedVolume, setStoredVolume] = useLocalStorage("ivid-volume", 0.7);
   const [storedSpeed, setStoredSpeed] = useLocalStorage("ivid-speed", 1);
   const [accentColor, setAccentColor] = useLocalStorage(
@@ -45,7 +44,6 @@ export function VideoPlayer() {
     "#ffffff",
   );
 
-  // Playback state
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -57,7 +55,6 @@ export function VideoPlayer() {
   const [speed, setSpeed] = useState(storedSpeed);
   const [quality, setQuality] = useState<Quality>("1080p");
 
-  // UI state
   const [isDraggingTimeline, setIsDraggingTimeline] = useState(false);
   const [isDraggingVolume, setIsDraggingVolume] = useState(false);
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
@@ -67,11 +64,9 @@ export function VideoPlayer() {
   const [showShortcuts, setShowShortcuts] = useState(false);
   const [showThemePicker, setShowThemePicker] = useState(false);
 
-  // Subtitles
   const [subtitleCues, setSubtitleCues] = useState<SubtitleCue[]>([]);
   const [subtitlesVisible, setSubtitlesVisible] = useState(true);
 
-  // Hooks
   const filters = useFilters();
   const audio = useAudioProcessing();
   const playlist = usePlaylist(videoRef);
@@ -89,7 +84,6 @@ export function VideoPlayer() {
     showThemePicker,
   );
 
-  // Refs for stable keyboard callbacks
   const isPlayingRef = useRef(isPlaying);
   const volumeRef2 = useRef(volume);
   const isMutedRef = useRef(isMuted);
@@ -226,7 +220,6 @@ export function VideoPlayer() {
     if (keep !== "theme") setShowThemePicker(false);
   }, []);
 
-  // Electron IPC Listeners
   useEffect(() => {
     // @ts-ignore
     if (typeof window !== "undefined" && window.require) {
@@ -269,7 +262,6 @@ export function VideoPlayer() {
       ipcRenderer.on("open-files", handleOpenFiles);
       ipcRenderer.on("open-folder", handleOpenFolder);
 
-      // Check for files passed via command line (Open With...)
       ipcRenderer.invoke("get-initial-files").then((paths: string[]) => {
         if (paths && paths.length > 0) {
           handleOpenFiles(null, paths);
@@ -283,14 +275,12 @@ export function VideoPlayer() {
     }
   }, [playlist.addItems]);
 
-  // Fullscreen listener
   useEffect(() => {
     const h = () => setIsFullscreen(!!document.fullscreenElement);
     document.addEventListener("fullscreenchange", h);
     return () => document.removeEventListener("fullscreenchange", h);
   }, []);
 
-  // Keyboard shortcuts — uses refs, no stale closures
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (
@@ -392,7 +382,6 @@ export function VideoPlayer() {
     setStoredVolume,
   ]);
 
-  // Mouse drag for timeline/volume
   useEffect(() => {
     if (!isDraggingTimeline && !isDraggingVolume) return;
     const onMove = (e: MouseEvent) => {
@@ -416,7 +405,6 @@ export function VideoPlayer() {
     handleVolumeUpdate,
   ]);
 
-  // Ambient glow — single rAF loop, properly guarded
   useEffect(() => {
     if (!isPlaying) {
       if (ambientFrameId.current !== null) {
@@ -454,7 +442,6 @@ export function VideoPlayer() {
     };
   }, [isPlaying]);
 
-  // Touch gestures
   const touchHandlers = useMemo(
     () => ({
       onSeek: (d: number) => skipTime(d),
@@ -481,7 +468,6 @@ export function VideoPlayer() {
       );
   }, []);
 
-  // Apply accent color CSS variable
   useEffect(() => {
     document.documentElement.style.setProperty("--color-accent", accentColor);
   }, [accentColor]);

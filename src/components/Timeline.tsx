@@ -44,7 +44,6 @@ export const Timeline = memo(function Timeline({
       setHoverX(e.clientX - rect.left);
       setHoverTime(time);
 
-      // Debounced seek — only when delta > 0.5s to avoid decoder hammering
       if (
         previewVideoRef.current &&
         previewUrl &&

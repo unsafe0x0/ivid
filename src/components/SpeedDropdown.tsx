@@ -17,7 +17,6 @@ export const SpeedDropdown = memo(function SpeedDropdown({
 }: SpeedDropdownProps) {
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Only attach click-outside listener when menu is open
   useEffect(() => {
     if (!showMenu) return;
     const handleClickOutside = (e: MouseEvent) => {
