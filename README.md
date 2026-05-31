@@ -58,6 +58,11 @@ The project is built using modern web standards inside a high-performance Electr
    bun run electron:build
    ```
 
+4. Build production installers for Windows (`.exe` NSIS and portable):
+   ```bash
+   bun run electron:build:win
+   ```
+
 ## Technology Stack
 
 - Electron (Desktop runtime)
